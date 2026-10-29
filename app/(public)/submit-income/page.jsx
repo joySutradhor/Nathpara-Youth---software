@@ -242,7 +242,11 @@ export default function SubmitIncomePage() {
 
   const [description, setDescription] = useState("");
 
-  const [incomeDate, setIncomeDate] = useState(todayLocal);
+  const [incomeDate, setIncomeDate] = useState("");
+
+  useEffect(() => {
+    setIncomeDate(todayLocal());
+  }, []);
 
   const [confirmOpen, setConfirmOpen] = useState(false);
 

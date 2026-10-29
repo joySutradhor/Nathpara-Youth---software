@@ -20,7 +20,6 @@ function LoginLoading() {
 }
 
 async function LoginAuthCheck({ children }) {
-  // Dynamic request শুরু হবে Suspense Boundary-এর ভেতরে
   await connection();
 
   const supabase = await createClient();
@@ -38,13 +37,15 @@ async function LoginAuthCheck({ children }) {
     }
   }
 
-  return <PublicShell>{children}</PublicShell>;
+  return children;
 }
 
 export default function LoginLayout({ children }) {
   return (
-    <Suspense fallback={<LoginLoading />}>
-      <LoginAuthCheck>{children}</LoginAuthCheck>
-    </Suspense>
+    <PublicShell>
+      <Suspense fallback={<LoginLoading />}>
+        <LoginAuthCheck>{children}</LoginAuthCheck>
+      </Suspense>
+    </PublicShell>
   );
 }

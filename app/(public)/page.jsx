@@ -94,7 +94,7 @@ async function HomeContent() {
             {money(finance?.current_balance)}
           </h1>
           <p className="mt-1 text-[11px] text-teal-100">
-            প্রারম্ভিক ফান্ড {money(finance?.opening_balance ?? 35000)}
+            প্রারম্ভিক ফান্ড {money(finance?.opening_balance ?? 0)}
           </p>
           <div className="mt-4 grid grid-cols-2 gap-3 border-t border-white/20 pt-4">
             <div>
@@ -164,13 +164,12 @@ async function HomeContent() {
             wide
             href="/pending-submissions"
             icon={FaClock}
-            title="অপেক্ষমাণ আবেদন"
-            description="অপেক্ষমাণ জমা ও খরচের তালিকা"
+            title="অপেক্ষমাণ জমা ও খরচের আবেদন"
+            description="অনুমোদনের অপেক্ষায় থাকা জমা ও খরচের আবেদনের তালিকা"
             tint="bg-amber-50 text-amber-700"
           />
         </div>
       </section>
-      
     </main>
   );
 }

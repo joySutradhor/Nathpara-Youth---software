@@ -206,6 +206,7 @@ async function DashboardContent() {
         <h2 id="actions-title" className="text-sm font-black text-slate-900">
           প্রয়োজনীয় কাজ
         </h2>
+
         <Link
           href="/dashboard/approvals"
           className="flex items-center gap-3 rounded-2xl bg-teal-700 p-4 text-white shadow-md shadow-teal-900/10 transition hover:bg-teal-800"
@@ -213,17 +214,19 @@ async function DashboardContent() {
           <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-white/15 text-xl">
             <FaClipboardCheck />
           </span>
+
           <span className="min-w-0 flex-1">
             <span className="block text-sm font-black">
-              আবেদন যাচাই ও অনুমোদন
+              জমা ও খরচের আবেদন যাচাই
             </span>
-            <span className="mt-1 block text-xs text-teal-100">
-              জমা ও খরচের আবেদন Approve / Reject করুন
+
+            <span className="mt-1 block text-xs leading-5 text-teal-100">
+              জমা ও খরচের আবেদন পর্যালোচনা করে অনুমোদন বা বাতিল করুন।
             </span>
           </span>
+
           <FaChevronRight className="shrink-0" />
         </Link>
-      
       </section>
 
       {/* NAVIGATION WITHOUT REPEATED FINANCIAL VALUES */}
@@ -244,10 +247,7 @@ async function DashboardContent() {
           description="অনুমোদিত সব খরচের বিস্তারিত"
           color="rose"
         />
-        
       </section>
-
-      
     </div>
   );
 }

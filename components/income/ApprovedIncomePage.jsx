@@ -184,7 +184,7 @@ export default function ApprovedIncomePage() {
   return (
     <div className="mx-auto max-w-lg space-y-4 px-3 py-5">
       {/* PAGE HEADER */}
-      <section className="rounded-3xl bg-gradient-to-br from-teal-700 via-teal-800 to-slate-900 p-5 text-white">
+      {/* <section className="rounded-3xl bg-gradient-to-br from-teal-700 via-teal-800 to-slate-900 p-5 text-white">
         <div className="flex items-start justify-between gap-3">
           <div>
             <p className="text-xs font-semibold text-teal-100">
@@ -209,7 +209,7 @@ export default function ApprovedIncomePage() {
           <FaShieldAlt />
           শুধু অ্যাডমিন অনুমোদিত জমা দেখানো হয়।
         </div>
-      </section>
+      </section> */}
 
       {/* SUMMARY */}
       <IncomeSummaryCard

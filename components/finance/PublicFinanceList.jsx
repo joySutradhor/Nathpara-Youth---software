@@ -194,7 +194,7 @@ export default function PublicFinanceList({
   return (
     <div className="mx-auto max-w-lg space-y-4 px-3 py-5">
       {/* HEADER */}
-      <section
+      {/* <section
         className={`rounded-3xl bg-gradient-to-br p-5 text-white ${
           pending
             ? "from-amber-600 via-amber-700 to-slate-900"
@@ -218,7 +218,7 @@ export default function PublicFinanceList({
             ? "এগুলো এখনো মূল হিসাবে গণনা হয়নি।"
             : "শুধু Admin অনুমোদিত হিসাব দেখানো হচ্ছে।"}
         </div>
-      </section>
+      </section> */}
 
       {/* SUMMARY */}
       {summaryRpc && (

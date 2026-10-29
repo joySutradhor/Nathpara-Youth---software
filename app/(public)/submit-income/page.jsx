@@ -289,11 +289,6 @@ export default function SubmitIncomePage() {
       return;
     }
 
-    if (description.trim().length < 2) {
-      setError("জমার বিবরণ লিখুন।");
-      return;
-    }
-
     if (!incomeDate) {
       setError("জমার তারিখ নির্বাচন করুন।");
       return;
@@ -638,7 +633,7 @@ export default function SubmitIncomePage() {
               className="mb-2 block text-xs font-bold text-slate-700"
             >
               জমার বিবরণ
-              <span className="ml-1 text-red-500">*</span>
+              <span className="ml-1 text-slate-400">(ঐচ্ছিক)</span>
             </label>
 
             <div className="relative">
@@ -648,7 +643,6 @@ export default function SubmitIncomePage() {
                 id="description"
                 value={description}
                 onChange={(event) => setDescription(event.target.value)}
-                required
                 rows={3}
                 maxLength={500}
                 placeholder="কী বাবদ টাকা জমা হচ্ছে লিখুন"
@@ -752,7 +746,7 @@ export default function SubmitIncomePage() {
               <div>
                 <p className="text-[11px] text-slate-500">বিবরণ</p>
                 <p className="mt-1 whitespace-pre-wrap break-words font-bold text-slate-900">
-                  {description.trim()}
+                  {description.trim() || "বিবরণ দেওয়া হয়নি"}
                 </p>
               </div>
             </div>

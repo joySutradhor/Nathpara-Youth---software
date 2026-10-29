@@ -12,6 +12,7 @@ import {
 } from "react-icons/fa";
 
 import { createClient } from "@/lib/supabase/client";
+import Image from "next/image";
 
 export default function Header({ admin = false }) {
   const router = useRouter();
@@ -28,10 +29,9 @@ export default function Header({ admin = false }) {
     try {
       const supabase = createClient();
 
-      const { error: signOutError } =
-        await supabase.auth.signOut({
-          scope: "local",
-        });
+      const { error: signOutError } = await supabase.auth.signOut({
+        scope: "local",
+      });
 
       if (signOutError) throw signOutError;
 
@@ -53,9 +53,16 @@ export default function Header({ admin = false }) {
           href="/"
           className="flex min-w-0 cursor-pointer items-center gap-3"
         >
-          <div className="grid size-10 shrink-0 place-items-center rounded-2xl bg-teal-700 text-lg font-black text-white">
-            ন
-          </div>
+          {/* <div className="relative size-10 shrink-0 overflow-hidden rounded-2xl bg-white">
+            <Image
+              src="/logo.png"
+              alt="নাথপাড়া যুবসংঘের লোগো"
+              fill
+              sizes="80px"
+              className="object-contain"
+              priority
+            />
+          </div> */}
 
           <div className="min-w-0">
             <h1 className="truncate text-sm font-black text-slate-900">
@@ -92,9 +99,7 @@ export default function Header({ admin = false }) {
                   <FaSignOutAlt />
                 )}
 
-                <span className="hidden sm:inline">
-                  লগআউট
-                </span>
+                <span className="hidden sm:inline">লগআউট</span>
               </button>
             </>
           ) : (

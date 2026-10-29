@@ -7,7 +7,6 @@ import { createClient } from "@/lib/supabase/client";
 import {
   FaArrowLeft,
   FaUser,
-  FaUserTie,
   FaPhoneAlt,
   FaBriefcase,
   FaUserPlus,
@@ -20,7 +19,6 @@ import {
 
 const initialForm = {
   full_name: "",
-  father_name: "",
   mobile: "",
   profession: "",
 };
@@ -29,7 +27,7 @@ const banglaDigits = "০১২৩৪৫৬৭৮৯";
 
 function normalizeDigits(value) {
   return value.replace(/[০-৯]/g, (digit) =>
-    String(banglaDigits.indexOf(digit))
+    String(banglaDigits.indexOf(digit)),
   );
 }
 
@@ -85,9 +83,7 @@ export default function JoinPage() {
     setForm((prev) => ({
       ...prev,
       [name]:
-        name === "mobile"
-          ? normalizeDigits(value).replace(/\D/g, "")
-          : value,
+        name === "mobile" ? normalizeDigits(value).replace(/\D/g, "") : value,
     }));
 
     setError("");
@@ -98,17 +94,12 @@ export default function JoinPage() {
 
     const cleaned = {
       full_name: form.full_name.trim(),
-      father_name: form.father_name.trim(),
       mobile: form.mobile.trim(),
       profession: form.profession.trim(),
     };
 
-    if (
-      cleaned.full_name.length < 2 ||
-      cleaned.father_name.length < 2 ||
-      cleaned.profession.length < 2
-    ) {
-      setError("নাম, পিতার নাম ও পেশা সঠিকভাবে লিখুন।");
+    if (cleaned.full_name.length < 2 || cleaned.profession.length < 2) {
+      setError("নাম ও পেশা সঠিকভাবে লিখুন।");
       return;
     }
 
@@ -135,10 +126,9 @@ export default function JoinPage() {
         "register_member",
         {
           p_full_name: form.full_name,
-          p_father_name: form.father_name,
           p_mobile: form.mobile,
           p_profession: form.profession,
-        }
+        },
       );
 
       if (submitError) throw submitError;
@@ -159,12 +149,24 @@ export default function JoinPage() {
     } catch (err) {
       console.error("Registration error:", err);
       setConfirmOpen(false);
-      setError(
-        "সদস্য নিবন্ধন সম্পন্ন করা যায়নি। আবার চেষ্টা করুন।"
-      );
+      if (err?.code === "23505") {
+        setError("এই মোবাইল নম্বর দিয়ে ইতোমধ্যে সদস্য নিবন্ধন করা হয়েছে।");
+      } else {
+        setError(
+          err?.message || "সদস্য নিবন্ধন সম্পন্ন করা যায়নি। আবার চেষ্টা করুন।",
+        );
+      }
     } finally {
       setLoading(false);
     }
+  }
+
+  function resetRegistration() {
+    setMember(null);
+    setForm({ ...initialForm });
+    setConfirmOpen(false);
+    setError("");
+    setLoading(false);
   }
 
   /* SUCCESS SCREEN */
@@ -175,40 +177,44 @@ export default function JoinPage() {
           <FaCheckCircle className="text-4xl text-emerald-600" />
         </div>
 
-        <h1 className="mt-5 text-2xl font-black text-slate-900">
-          অভিনন্দন!
-        </h1>
+        <h1 className="mt-5 text-2xl font-black text-slate-900">অভিনন্দন!</h1>
 
         <p className="mt-2 text-sm leading-7 text-slate-600">
-          <strong>{member.name}</strong>, আপনি নাথপাড়া যুবসংঘের
-          সদস্য হয়েছেন।
+          <strong>{member.name}</strong>, আপনি নাথপাড়া যুবসংঘের সদস্য হয়েছেন।
         </p>
 
         <div className="mt-6 w-full rounded-3xl bg-gradient-to-br from-teal-700 to-teal-900 p-6 text-white shadow-lg">
           <FaIdCard className="mx-auto text-3xl text-teal-200" />
 
-          <p className="mt-4 text-xs text-teal-100">
-            আপনার সদস্য ID
-          </p>
+          <p className="mt-4 text-xs text-teal-100">আপনার সদস্য ID</p>
 
           <p className="mt-3 font-mono text-5xl font-black tracking-[0.15em]">
             {member.id}
           </p>
 
-          <p className="mt-3 text-xs text-teal-100">
-            এই ID সংরক্ষণ করে রাখুন
-          </p>
+          <p className="mt-3 text-xs text-teal-100">এই ID সংরক্ষণ করে রাখুন</p>
         </div>
+
+        <button
+          type="button"
+          onClick={resetRegistration}
+          className="mt-6 flex min-h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-teal-700 px-4 text-sm font-extrabold text-white transition hover:bg-teal-800"
+        >
+          <FaUserPlus />
+          নতুন সদস্য নিবন্ধন করুন
+        </button>
 
         <Link
           href="/members"
-          className="mt-6 flex min-h-12 w-full cursor-pointer items-center justify-center rounded-xl bg-teal-700 text-sm font-bold text-white"
+          onClick={resetRegistration}
+          className="mt-3 flex min-h-12 w-full cursor-pointer items-center justify-center rounded-xl bg-teal-700 text-sm font-bold text-white"
         >
           সদস্য তালিকা দেখুন
         </Link>
 
         <Link
           href="/"
+          onClick={resetRegistration}
           className="mt-3 flex min-h-12 w-full cursor-pointer items-center justify-center rounded-xl border border-slate-200 bg-white text-sm font-bold text-slate-700"
         >
           হোমপেজে ফিরে যান
@@ -230,13 +236,9 @@ export default function JoinPage() {
         </Link>
 
         <div>
-          <h1 className="text-lg font-black text-slate-900">
-            সদস্য হোন
-          </h1>
+          <h1 className="text-lg font-black text-slate-900">সদস্য হোন</h1>
 
-          <p className="text-[11px] text-slate-500">
-            নতুন সদস্য নিবন্ধন
-          </p>
+          <p className="text-[11px] text-slate-500">নতুন সদস্য নিবন্ধন</p>
         </div>
       </div>
 
@@ -247,13 +249,10 @@ export default function JoinPage() {
         </div>
 
         <div>
-          <h2 className="text-sm font-extrabold">
-            নাথপাড়া যুবসংঘে স্বাগতম
-          </h2>
+          <h2 className="text-sm font-extrabold">নাথপাড়া যুবসংঘে স্বাগতম</h2>
 
           <p className="mt-1 text-[11px] leading-5 text-teal-100">
-            চারটি তথ্য পূরণ করুন। নিবন্ধন শেষ হলেই
-            সদস্য ID পেয়ে যাবেন।
+            তিনটি তথ্য পূরণ করুন। নিবন্ধন শেষ হলেই সদস্য ID পেয়ে যাবেন।
           </p>
         </div>
       </section>
@@ -280,15 +279,6 @@ export default function JoinPage() {
           onChange={handleChange}
           icon={FaUser}
           placeholder="সম্পূর্ণ নাম লিখুন"
-        />
-
-        <Field
-          label="পিতার নাম"
-          name="father_name"
-          value={form.father_name}
-          onChange={handleChange}
-          icon={FaUserTie}
-          placeholder="পিতার নাম লিখুন"
         />
 
         <Field
@@ -363,21 +353,18 @@ export default function JoinPage() {
             </div>
 
             <p className="mt-2 text-xs leading-6 text-slate-500">
-              নিচের তথ্যগুলো সঠিক হলে নিশ্চিত করুন।
-              নিশ্চিত করার সঙ্গে সঙ্গে সদস্য তৈরি হবে।
+              নিচের তথ্যগুলো সঠিক হলে নিশ্চিত করুন। নিশ্চিত করার সঙ্গে সঙ্গে
+              সদস্য তৈরি হবে।
             </p>
 
             <div className="mt-4 space-y-3 rounded-2xl bg-slate-50 p-4 text-sm">
               {[
                 ["নাম", form.full_name],
-                ["পিতার নাম", form.father_name],
                 ["মোবাইল", form.mobile],
                 ["পেশা", form.profession],
               ].map(([label, value]) => (
                 <div key={label}>
-                  <p className="text-[11px] text-slate-500">
-                    {label}
-                  </p>
+                  <p className="text-[11px] text-slate-500">{label}</p>
                   <p className="mt-1 break-words font-bold text-slate-900">
                     {value}
                   </p>

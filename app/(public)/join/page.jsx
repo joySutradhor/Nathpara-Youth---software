@@ -278,7 +278,7 @@ export default function JoinPage() {
           value={form.full_name}
           onChange={handleChange}
           icon={FaUser}
-          placeholder="সম্পূর্ণ নাম লিখুন"
+          placeholder="Type your full name"
         />
 
         <Field
@@ -298,7 +298,7 @@ export default function JoinPage() {
           value={form.profession}
           onChange={handleChange}
           icon={FaBriefcase}
-          placeholder="যেমন: ছাত্র, ব্যবসায়ী"
+          placeholder="Example: Student, Businessman, Teacher"
         />
 
         {error && (

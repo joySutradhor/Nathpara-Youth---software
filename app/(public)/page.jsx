@@ -98,7 +98,7 @@ function FacebookCommunity() {
       {/* LINKS */}
       <div className="grid grid-cols-3 gap-2">
         <a
-          href={FACEBOOK_PAGE}
+          href={FACEBOOK_GROUP}
           target="_blank"
           rel="noopener noreferrer"
           aria-label="ফেসবুক পেজ ফলো করুন"
@@ -109,7 +109,7 @@ function FacebookCommunity() {
         </a>
 
         <a
-          href={FACEBOOK_GROUP}
+          href={FACEBOOK_PAGE}
           target="_blank"
           rel="noopener noreferrer"
           aria-label="ফেসবুক গ্রুপে যোগ দিন"
